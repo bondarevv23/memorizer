@@ -1,0 +1,581 @@
+openapi: 3.0.0
+info:
+  title: OpenAPI memorizer
+  version: "0.1"
+servers:
+- url: http://localhost:8080
+tags:
+- name: users
+- name: decks
+- name: cards
+paths:
+  /users/{id}:
+    delete:
+      description: delete user by id
+      operationId: deleteUserById
+      parameters:
+      - description: ID of user to fetch
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 1234567890
+          format: int64
+          nullable: false
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: user successfully deleted
+        "404":
+          description: user with this doesn't exist
+      tags:
+      - users
+      x-accepts: application/json
+      x-tags:
+      - tag: users
+    get:
+      description: returns all decks owned by user
+      operationId: getDecksByUserId
+      parameters:
+      - description: ID of user to fetch
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 1234567890
+          format: int64
+          nullable: false
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DeckDTO'
+                type: array
+          description: a list of decks
+        "404":
+          description: user with this id does not exist
+      tags:
+      - users
+      x-accepts: application/json
+      x-tags:
+      - tag: users
+    post:
+      description: create new user
+      operationId: addNewUser
+      parameters:
+      - description: ID of user to fetch
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 1234567890
+          format: int64
+          nullable: false
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+          description: user created
+        "409":
+          description: user with this is already exists
+      tags:
+      - users
+      x-accepts: application/json
+      x-tags:
+      - tag: users
+  /users/{id}/share/{deckId}:
+    put:
+      description: share deck with user
+      operationId: shareDeckWithUser
+      parameters:
+      - description: ID of user to fetch
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 1234567890
+          format: int64
+          nullable: false
+          type: integer
+        style: simple
+      - description: ID of deck to fetch
+        explode: false
+        in: path
+        name: deckId
+        required: true
+        schema:
+          example: 1234567890
+          format: int32
+          nullable: false
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: the deck was successfully added to the user
+        "404":
+          description: wrong user ID or deck ID
+        "409":
+          description: this user already har this deck
+      tags:
+      - users
+      x-accepts: application/json
+      x-tags:
+      - tag: users
+  /users/{id}/remove/{deckId}:
+    delete:
+      description: remove deck from user
+      operationId: removeDeckFromUser
+      parameters:
+      - description: ID of user to fetch
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 1234567890
+          format: int64
+          nullable: false
+          type: integer
+        style: simple
+      - description: ID of deck to fetch
+        explode: false
+        in: path
+        name: deckId
+        required: true
+        schema:
+          example: 1234567890
+          format: int32
+          nullable: false
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: the deck was successfully removed from the user
+        "404":
+          description: wrong user ID or deck ID
+        "409":
+          description: the user is the owner of the deck
+      tags:
+      - users
+      x-accepts: application/json
+      x-tags:
+      - tag: users
+  /decks:
+    post:
+      description: create new deck
+      operationId: addNewDeck
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeckRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeckDTO'
+          description: new deck successfully created
+        "400":
+          description: invalid deck request passed
+        "404":
+          description: owner of deck doesn't exist
+      tags:
+      - decks
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: decks
+  /decks/{id}:
+    delete:
+      description: delete deck by id
+      operationId: deleteDeckById
+      parameters:
+      - description: ID of deck to fetch
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 1234567890
+          format: int32
+          nullable: false
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: deck has successfully deleted
+        "404":
+          description: there is no deck with this id
+      tags:
+      - decks
+      x-accepts: application/json
+      x-tags:
+      - tag: decks
+    get:
+      description: get deck by id
+      operationId: getDeckById
+      parameters:
+      - description: ID of deck to fetch
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 1234567890
+          format: int32
+          nullable: false
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeckDTO'
+          description: deck has successfully returned
+        "404":
+          description: unknown deck id
+      tags:
+      - decks
+      x-accepts: application/json
+      x-tags:
+      - tag: decks
+    put:
+      description: update deck by id
+      operationId: updateDeckById
+      parameters:
+      - description: ID of deck to fetch
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 1234567890
+          format: int32
+          nullable: false
+          type: integer
+        style: simple
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeckRequest'
+      responses:
+        "201":
+          description: deck have successfully updated
+        "404":
+          description: deck with this id doesn't exist
+        "400":
+          description: invalid deckRequest passed
+      tags:
+      - decks
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: decks
+  /decks/{id}/card:
+    get:
+      description: get random card from deck
+      operationId: getRandomCardFromDeck
+      parameters:
+      - description: ID of deck to fetch
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 1234567890
+          format: int32
+          nullable: false
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardDTO'
+          description: card has returned successfully
+        "404":
+          description: deck with this id doesn't exist
+        "409":
+          description: deck is empty
+      tags:
+      - decks
+      x-accepts: application/json
+      x-tags:
+      - tag: decks
+  /cards:
+    post:
+      description: create new card
+      operationId: addNewCard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardDTO'
+          description: card has added successfully
+        "400":
+          description: invalid card request passed
+        "404":
+          description: wrong deckId passed
+      tags:
+      - cards
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: cards
+  /cards/{id}:
+    delete:
+      description: delete card by id
+      operationId: deleteCardById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 1234567890
+          format: int32
+          nullable: false
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: card has deleted successfully
+        "404":
+          description: card with this id doesn't exist
+      tags:
+      - cards
+      x-accepts: application/json
+      x-tags:
+      - tag: cards
+    get:
+      description: get card by id
+      operationId: getCardById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 1234567890
+          format: int32
+          nullable: false
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardDTO'
+          description: card has returned successfully
+        "404":
+          description: card with this id doesn't exist
+      tags:
+      - cards
+      x-accepts: application/json
+      x-tags:
+      - tag: cards
+    put:
+      description: update card by id
+      operationId: updateCardById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 1234567890
+          format: int32
+          nullable: false
+          type: integer
+        style: simple
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardRequest'
+      responses:
+        "200":
+          description: card has successfully updated
+        "404":
+          description: unknown card id
+        "400":
+          description: invalid card request data passed
+      tags:
+      - cards
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: cards
+components:
+  schemas:
+    DeckDTO:
+      example:
+        owner: 6
+        id: 0
+        title: title
+      required:
+        - id
+        - owner
+        - title
+      properties:
+        id:
+          format: int32
+          nullable: false
+          type: integer
+        owner:
+          format: int64
+          nullable: false
+          type: integer
+        title:
+          example: title
+          nullable: false
+          type: string
+      type: object
+    DeckRequest:
+      example:
+        owner: 1234567890
+        title: title
+      properties:
+        owner:
+          example: 1234567890
+          format: int64
+          nullable: false
+          type: integer
+        title:
+          example: title
+          nullable: false
+          type: string
+      type: object
+    UserDTO:
+      example:
+        deckIds:
+        - 12345667890
+        - 12345667890
+        tgId: 1234567890
+      required:
+        - tgId
+        - deckIds
+      properties:
+        tgId:
+          example: 1234567890
+          format: int64
+          nullable: false
+          type: integer
+        deckIds:
+          items:
+            example: 12345667890
+            format: int32
+            nullable: false
+            type: integer
+          type: array
+      type: object
+    SideDTO:
+      example:
+        imageLink: imageLink
+        text: text
+        title: title
+      nullable: false
+      x-class-extra-annotation: "@lombok.AllArgsConstructor"
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          maxLength: 100
+          nullable: false
+        text:
+          type: string
+          maxLength: 320
+          nullable: true
+        imageLink:
+          type: string
+          maxLength: 60
+          nullable: true
+      type: object
+    CardDTO:
+      example:
+        question:
+          imageLink: imageLink
+          text: text
+          title: title
+        answer:
+          imageLink: imageLink
+          text: text
+          title: title
+        deckId: 1234567890
+        id: 1234567890
+      required:
+        - id
+        - deckId
+        - question
+        - answer
+      properties:
+        id:
+          example: 1234567890
+          format: int32
+          nullable: false
+          type: integer
+        deckId:
+          example: 1234567890
+          format: int32
+          nullable: false
+          type: integer
+        question:
+          $ref: '#/components/schemas/SideDTO'
+        answer:
+          $ref: '#/components/schemas/SideDTO'
+      type: object
+    CardRequest:
+      example:
+        question:
+          imageLink: imageLink
+          text: text
+          title: title
+        answer:
+          imageLink: imageLink
+          text: text
+          title: title
+        deckId: 1234567890
+      required:
+        - deckId
+        - question
+        - answer
+      properties:
+        deckId:
+          example: 1234567890
+          format: int32
+          nullable: false
+          type: integer
+        question:
+          $ref: '#/components/schemas/SideDTO'
+        answer:
+          $ref: '#/components/schemas/SideDTO'
+      type: object

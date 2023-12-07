@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+        "name": "app.database-access-type",
+        "type": "java.lang.String",
+        "description": "Set access type fo database (jpa / jdbc)."
+    }
+  ]
+}
