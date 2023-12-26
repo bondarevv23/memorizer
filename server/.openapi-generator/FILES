@@ -1,0 +1,12 @@
+README.md
+pom.xml
+src/main/java/com/github/bondarevv23/memorizer/server/controller/api/ApiUtil.java
+src/main/java/com/github/bondarevv23/memorizer/server/controller/api/CardsApi.java
+src/main/java/com/github/bondarevv23/memorizer/server/controller/api/DecksApi.java
+src/main/java/com/github/bondarevv23/memorizer/server/controller/api/UsersApi.java
+src/main/java/com/github/bondarevv23/memorizer/server/model/generated/CardDTO.java
+src/main/java/com/github/bondarevv23/memorizer/server/model/generated/CardRequest.java
+src/main/java/com/github/bondarevv23/memorizer/server/model/generated/DeckDTO.java
+src/main/java/com/github/bondarevv23/memorizer/server/model/generated/DeckRequest.java
+src/main/java/com/github/bondarevv23/memorizer/server/model/generated/SideDTO.java
+src/main/java/com/github/bondarevv23/memorizer/server/model/generated/UserDTO.java

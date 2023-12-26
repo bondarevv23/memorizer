@@ -1,0 +1,34 @@
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = "$rootDir/src/main/resources/swagger/api.0.1.yaml"
+    outputDir = "$rootDir"
+    apiPackage = "com.github.bondarevv23.memorizer.server.controller.api"
+    modelPackage = "com.github.bondarevv23.memorizer.server.model.generated"
+    validateSpec = true
+    configOptions.set([
+            sourceFolder:"src/main/java",
+            dateLibrary: "java8-localdatetime",
+            serializableModel: "true",
+            interfaceOnly: "true",
+            hideGenerationTimestamp: "true",
+            useBeanValidation: "true",
+            generateSupportingFiles: "false",
+            swaggerDocketConfig: "false",
+            useTags: "true",
+            openApiNullable: "false",
+            additionalModelTypeAnnotations: "@lombok.Builder",
+            skipDefaultInterface: "true",
+            useSpringBoot3: "true",
+            useSpringController: "true",
+            performBeanValidation: "true"
+    ])
+  globalProperties.set([
+          apiTests: "false",
+		  modelTests: "false",
+          apiDocs: "false",
+          modelDocs: "false"
+  ])
+}
+
+compileJava.dependsOn("openApiGenerate")
+processResources.dependsOn("openApiGenerate")

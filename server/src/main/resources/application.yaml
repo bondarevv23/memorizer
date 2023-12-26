@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: username
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  docker:
+    compose:
+      file: ${user.dir}/server/compose.yaml
+
+app:
+  database-access-type: jdbc

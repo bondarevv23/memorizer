@@ -1,0 +1,20 @@
+bot-token: 6709730206:AAGYz_xguY3dDj9-aKzBJxcVBKDI_7y43bI
+server-uri: http://localhost:8080
+server:
+  port: 8081
+
+spring:
+  data:
+    redis:
+      database: 16
+      host: localhost
+      timeout: 60000
+      port: 6379
+
+  docker:
+    compose:
+      file: bot/compose.yaml
+
+imgbb:
+  uri: https://api.imgbb.com
+  api-key: e4a4f14ef2f0eb14db06c1049127ef71

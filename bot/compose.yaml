@@ -1,0 +1,14 @@
+services:
+  redis:
+    image: redis:latest
+    restart: on-failure
+    command: >
+      --requirepass redis-password
+    ports:
+      - '6379:6379'
+    volumes:
+      - /bot/dаta:/root/redis
+      - /path/data/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=16
